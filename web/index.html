@@ -9,9 +9,8 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#home"><span class="brand-mark">∿</span><span>FIELD NOTES <small>DIFFERENTIAL EQUATIONS × ML</small></span></a>
-    <nav aria-label="Main navigation"><a href="#lab">01 / EXPERIMENT</a><a href="#guide">02 / HOW IT WORKS</a></nav>
-    <a class="top-cta" href="#lab">Open the lab <span>↗</span></a>
+    <a class="brand" href="#home" aria-label="Baku Higher Oil School — Home"><img src="baku-higher-oil-school-logo.png" alt="Baku Higher Oil School"></a>
+    <nav aria-label="Main navigation"><a href="#home">Home</a><a href="#guide">How it works</a><a href="#lab">Experiment</a></nav>
   </header>
 
   <main>
@@ -20,11 +19,10 @@
         <p class="eyebrow"><span></span> A SMALL SCIENTIFIC COMPUTING EXPERIMENT</p>
         <h1>Heat moves.<br><em>Can a model<br>keep up?</em></h1>
         <p class="hero-intro">We put two approaches side by side: a numerical solver that follows the heat equation step by step, and a trained neural network that learned to predict the plate.</p>
-        <a class="button" href="#lab">Run an experiment <span>↓</span></a>
+        <a class="button" href="#guide">Understand the project <span>↓</span></a>
         <p class="hero-foot">A browser-based, interactive demonstration<br>One plate · One heat source · Two methods</p>
       </div>
       <div class="hero-art" aria-label="Illustration of heat spreading from a hot spot on a metal plate">
-        <div class="art-label label-top">HEAT SOURCE<br><b>01 / CENTER</b></div>
         <div class="heat-plate"><div class="plate-ring ring-outer"></div><div class="plate-ring ring-middle"></div><div class="plate-ring ring-inner"></div><div class="hot-core"></div><span class="crosshair">+</span></div>
         <div class="art-coordinates">x 0.50 <span>·</span> y 0.50 <span>·</span> t 0.30</div>
         <div class="art-label label-bottom">TEMPERATURE FIELD<br><b>WARMTH MOVES OUTWARD ↗</b></div>
@@ -32,10 +30,23 @@
       </div>
     </section>
 
+    <section class="guide section-wrap" id="guide">
+      <div class="section-heading"><div><p class="eyebrow">01 — THE PROJECT, EXPLAINED</p><h2>From a physical rule<br><em>to a quick prediction.</em></h2></div><p class="section-note">A guided tour of the equation, the simulator, the model, and what this experiment can—and cannot—tell us.</p></div>
+      <div class="story-grid">
+        <aside class="story-aside"><span class="aside-number">THE QUESTION</span><p>Can a model trained to respect a heat equation predict a temperature map faster than a step-by-step solver?</p><a href="#lab">Try the experiment ↑</a></aside>
+        <div class="story-content">
+          <article class="story-block"><span class="chapter">01 / THE PHYSICS</span><div><h3>What does the heat equation say?</h3><p>At each point on a plate, temperature changes as heat flows in from warmer neighbors, flows out toward cooler neighbors, and arrives from a heater. Our simplified two-dimensional equation is:</p><div class="equation" aria-label="Partial T over partial t equals alpha times the sum of partial squared T over partial x squared and partial y squared, plus heat from the source"><code>∂T/∂t = α (∂²T/∂x² + ∂²T/∂y²) + q(x, y)</code></div><p class="equation-key"><b>T</b> temperature · <b>t</b> time · <b>α</b> how readily heat spreads · <b>q</b> heat supplied by the heater</p><p>In everyday words: a spot warms when heat flows into it or the heater adds energy. The plate edges are held at room temperature.</p></div></article>
+          <article class="story-block"><span class="chapter">02 / THE SOLVER</span><div><h3>How does the traditional method work?</h3><p>We divide the plate into a grid of 48 × 48 small squares. Starting at room temperature, the program repeatedly estimates heat flow between neighboring squares, then advances by a tiny time step. After many steps, we have a temperature map.</p><div class="process"><div><b>01</b><span>READ each tile</span></div><span class="process-arrow">→</span><div><b>02</b><span>MOVE heat</span></div><span class="process-arrow">→</span><div><b>03</b><span>ADVANCE time</span></div><span class="process-arrow">→</span><div><b>04</b><span>REPEAT</span></div></div></div></article>
+          <article class="story-block"><span class="chapter">03 / THE MODEL</span><div><h3>How does machine learning fit in?</h3><p>We first used the simulator to create examples of plates with different heater positions, strengths and times. A small neural network learned a mapping from those settings to a temperature map.</p><p>While it learned, it received two kinds of feedback: “Does your map match the simulator’s example?” and “Do your predicted temperatures change in a way that follows the heat equation?” The second check is the physics-informed part.</p><div class="loss-card"><span>TRAINING FEEDBACK</span><b>Example mismatch <i>+</i> 0.01 × heat-equation mismatch</b><small>The equation weight was selected in our validation experiment.</small></div><p>After training, prediction is one forward pass through the network. It does not march through each time step like the solver.</p></div></article>
+          <article class="story-block"><span class="chapter">04 / THE FAIR TEST</span><div><h3>How do we compare them fairly?</h3><p>Both methods use the same heater position, strength, time, grid and boundary conditions. We time each on the device running this page, and compare every grid cell against the solver’s output.</p><p><b>RMSE</b> (root mean square error) summarizes how far temperatures differ. Zero means an exact match; lower is closer. Hot-area RMSE checks the hottest part separately, where an overall average might hide mistakes.</p><p>Timing is a single local-device measurement repeated several times. It does not include the model’s earlier training cost, and the result depends on the browser and device.</p></div></article>
+          <article class="story-block"><span class="chapter">05 / LIMITS &amp; NEXT</span><div><h3>What should we conclude?</h3><p>This is a simplified computer experiment—not a calibrated simulation of a particular metal. The model is only trained for times between 0 and 0.3 and heater settings inside the training range. It may be less accurate outside them.</p><p>A faster prediction is useful only if its error is acceptable. Our website shows both values together so speed does not hide accuracy. The numerical solver is still the reference for this project.</p></div></article>
+        </div>
+      </div>
+    </section>
     <section class="lab section-wrap" id="lab">
-      <div class="section-heading"><div><p class="eyebrow">01 — INTERACTIVE EXPERIMENT</p><h2>Same plate.<br><em>Different approach.</em></h2></div><p class="section-note">Move the heater, change its strength or time, and compare the temperature fields. Both images share a scale.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">02 — INTERACTIVE EXPERIMENT</p><h2>Same plate.<br><em>Different approach.</em></h2></div><p class="section-note">Move the heater, change its strength or time, and compare the temperature fields. Both images share a scale.</p></div>
       <div class="lab-card">
-        <div class="lab-topline"><span><i class="live-dot"></i> LIVE SIMULATION</span><span>24 × 24 GRID <b>·</b> ROOM TEMPERATURE 20°</span></div>
+        <div class="lab-topline"><span><i class="live-dot"></i> LIVE SIMULATION</span><span>48 × 48 GRID <b>·</b> ROOM TEMPERATURE 20°</span></div>
         <div class="views">
           <article class="view-panel"><div class="view-title"><div><span class="method-num">A</span><h3>Numerical solver</h3></div><span class="method-tag">REFERENCE</span></div><canvas id="solverCanvas" width="480" height="480" aria-label="Numerical solver temperature map"></canvas><div class="view-foot"><span>Follows the heat equation in small time steps</span><b id="solverTime">—</b></div></article>
           <article class="view-panel"><div class="view-title"><div><span class="method-num model-num">B</span><h3>Trained model</h3></div><span class="method-tag model-tag">PHYSICS-INFORMED</span></div><canvas id="modelCanvas" width="480" height="480" aria-label="Neural network predicted temperature map"></canvas><div class="view-foot"><span>Predicts the whole plate in one pass</span><b id="modelTime">—</b></div></article>
@@ -52,20 +63,7 @@
       <p class="lab-caption"><span>FIG. 01</span> Predicted and simulated temperature for the same heater, strength and time. Illustrative model units; not measured metal temperatures.</p>
     </section>
 
-    <section class="guide section-wrap" id="guide">
-      <div class="section-heading"><div><p class="eyebrow">02 — THE PROJECT, EXPLAINED</p><h2>From a physical rule<br><em>to a quick prediction.</em></h2></div><p class="section-note">A guided tour of the equation, the simulator, the model, and what this experiment can—and cannot—tell us.</p></div>
-      <div class="story-grid">
-        <aside class="story-aside"><span class="aside-number">THE QUESTION</span><p>Can a model trained to respect a heat equation predict a temperature map faster than a step-by-step solver?</p><a href="#lab">Try the experiment ↑</a></aside>
-        <div class="story-content">
-          <article class="story-block"><span class="chapter">01 / THE PHYSICS</span><div><h3>What does the heat equation say?</h3><p>At each point on a plate, temperature changes as heat flows in from warmer neighbors, flows out toward cooler neighbors, and arrives from a heater. Our simplified two-dimensional equation is:</p><div class="equation"><span>∂T</span><span class="fraction-line"></span><span>∂t</span><span class="equals">= α</span><span class="paren">(</span><span>∂²T</span><span class="fraction-line"></span><span>∂x²</span><span class="plus">+</span><span>∂²T</span><span class="fraction-line"></span><span>∂y²</span><span class="paren">)</span><span>+ q(x,y)</span></div><p class="equation-key"><b>T</b> temperature · <b>t</b> time · <b>α</b> how readily heat spreads · <b>q</b> heat supplied by the heater</p><p>In everyday words: a spot warms when heat flows into it or the heater adds energy. The plate edges are held at room temperature.</p></div></article>
-          <article class="story-block"><span class="chapter">02 / THE SOLVER</span><div><h3>How does the traditional method work?</h3><p>We divide the plate into a grid of 24 × 24 small squares. Starting at room temperature, the program repeatedly estimates heat flow between neighboring squares, then advances by a tiny time step. After many steps, we have a temperature map.</p><div class="process"><div><b>01</b><span>READ each tile</span></div><span class="process-arrow">→</span><div><b>02</b><span>MOVE heat</span></div><span class="process-arrow">→</span><div><b>03</b><span>ADVANCE time</span></div><span class="process-arrow">→</span><div><b>04</b><span>REPEAT</span></div></div></div></article>
-          <article class="story-block"><span class="chapter">03 / THE MODEL</span><div><h3>How does machine learning fit in?</h3><p>We first used the simulator to create examples of plates with different heater positions, strengths and times. A small neural network learned a mapping from those settings to a temperature map.</p><p>While it learned, it received two kinds of feedback: “Does your map match the simulator’s example?” and “Do your predicted temperatures change in a way that follows the heat equation?” The second check is the physics-informed part.</p><div class="loss-card"><span>TRAINING FEEDBACK</span><b>Example mismatch <i>+</i> 0.01 × heat-equation mismatch</b><small>The equation weight was selected in our validation experiment.</small></div><p>After training, prediction is one forward pass through the network. It does not march through each time step like the solver.</p></div></article>
-          <article class="story-block"><span class="chapter">04 / THE FAIR TEST</span><div><h3>How do we compare them fairly?</h3><p>Both methods use the same heater position, strength, time, grid and boundary conditions. We time each on the device running this page, and compare every grid cell against the solver’s output.</p><p><b>RMSE</b> (root mean square error) summarizes how far temperatures differ. Zero means an exact match; lower is closer. Hot-area RMSE checks the hottest part separately, where an overall average might hide mistakes.</p><p>Timing is a single local-device measurement repeated several times. It does not include the model’s earlier training cost, and the result depends on the browser and device.</p></div></article>
-          <article class="story-block"><span class="chapter">05 / LIMITS &amp; NEXT</span><div><h3>What should we conclude?</h3><p>This is a simplified computer experiment—not a calibrated simulation of a particular metal. The model is only trained for times between 0 and 0.3 and heater settings inside the training range. It may be less accurate outside them.</p><p>A faster prediction is useful only if its error is acceptable. Our website shows both values together so speed does not hide accuracy. The numerical solver is still the reference for this project.</p></div></article>
-        </div>
-      </div>
-    </section>
-    <footer><a class="brand" href="#home"><span class="brand-mark">∿</span><span>FIELD NOTES <small>DIFFERENTIAL EQUATIONS × ML</small></span></a><p>Built to make the mathematics visible.</p><a href="#home">BACK TO TOP ↑</a></footer>
+    <footer><a class="brand" href="#home" aria-label="Baku Higher Oil School — Home"><img src="baku-higher-oil-school-logo.png" alt="Baku Higher Oil School"></a><p>Built to make the mathematics visible.</p><a href="#home">BACK TO TOP ↑</a></footer>
   </main>
   <script src="app.js" defer></script>
 </body>
