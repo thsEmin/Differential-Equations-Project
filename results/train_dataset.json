@@ -1,0 +1,15 @@
+{
+  "signature": {
+    "version": 1,
+    "simulation_sha256": "7c486a8b8dde55ff73bad74fe1a07e6a406aa96207b999302cbe469ece5cf447",
+    "cases_sha256": "033ce4819fe3c50de1b563d7339a2dda94a7a76f027aba9f8932a5e3fe743ea2",
+    "shape": [
+      2000,
+      101,
+      24,
+      24
+    ],
+    "dtype": "float32"
+  },
+  "file_sha256": "1d090a88aaa8dafd729a2801790901a84cd026a520ad4e1b7071f24c7e3a8313"
+}

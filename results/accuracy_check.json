@@ -1,0 +1,7 @@
+{
+  "physics_informed": {
+    "rmse": 0.019696925904007526,
+    "relative_temperature_rise_error": 0.06872975490010033,
+    "maximum_absolute_error": 0.30990159598628964
+  }
+}
